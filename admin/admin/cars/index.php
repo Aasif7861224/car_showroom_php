@@ -22,7 +22,7 @@ function badge_class($status){
 <?php require_once __DIR__ . '/../../includes/admin_navbar.php'; ?>
 <?php require_once __DIR__ . '/../../includes/admin_sidebar.php'; ?>
 
-<div class="container my-4">
+<div class="container-fluid my-4 px-3 px-md-4">
   <div class="d-flex justify-content-between align-items-end flex-wrap gap-2">
     <div>
       <h3 class="fw-bold mb-1">Cars</h3>
@@ -57,30 +57,21 @@ function badge_class($status){
                 <td><?php echo esc($x['location']); ?></td>
                 <td>₹<?php echo number_format((float)$x['price']); ?></td>
                 <td>
-                  <span class="badge text-bg-<?php echo badge_class($x['status']); ?>">
-                    <?php echo esc($x['status']); ?>
-                  </span>
+                  <span class="badge text-bg-<?php echo badge_class($x['status']); ?>"><?php echo esc($x['status']); ?></span>
                 </td>
                 <td class="text-end">
                   <a class="btn btn-sm btn-outline-dark" href="<?php echo BASE_URL; ?>admin/cars/edit.php?id=<?php echo (int)$x['id']; ?>">Edit</a>
                   <a class="btn btn-sm btn-outline-primary" href="<?php echo BASE_URL; ?>admin/cars/images.php?id=<?php echo (int)$x['id']; ?>">Images</a>
-
                   <div class="btn-group btn-group-sm">
                     <a class="btn btn-outline-secondary" href="<?php echo BASE_URL; ?>admin/cars/status.php?id=<?php echo (int)$x['id']; ?>&status=Draft">Draft</a>
                     <a class="btn btn-outline-success" href="<?php echo BASE_URL; ?>admin/cars/status.php?id=<?php echo (int)$x['id']; ?>&status=Published">Publish</a>
                     <a class="btn btn-outline-dark" href="<?php echo BASE_URL; ?>admin/cars/status.php?id=<?php echo (int)$x['id']; ?>&status=Sold">Sold</a>
                   </div>
-
-                  <a class="btn btn-sm btn-outline-danger"
-                     onclick="return confirm('Soft delete this car?');"
-                     href="<?php echo BASE_URL; ?>admin/cars/delete.php?id=<?php echo (int)$x['id']; ?>">Delete</a>
+                  <a class="btn btn-sm btn-outline-danger" onclick="return confirm('Soft delete this car?');" href="<?php echo BASE_URL; ?>admin/cars/delete.php?id=<?php echo (int)$x['id']; ?>">Delete</a>
                 </td>
               </tr>
             <?php endforeach; ?>
-
-            <?php if(count($rows)===0): ?>
-              <tr><td colspan="8" class="text-muted">No cars found.</td></tr>
-            <?php endif; ?>
+            <?php if(count($rows)===0): ?><tr><td colspan="8" class="text-muted">No cars found.</td></tr><?php endif; ?>
           </tbody>
         </table>
       </div>

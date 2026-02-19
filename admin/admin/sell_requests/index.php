@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../app/init.php';
+require_once __DIR__ . '/../../app/init.php';
 require_admin();
 
 function badgeSell($s){
@@ -19,9 +19,9 @@ $r=db()->query($sql);
 if($r){ while($row=$r->fetch_assoc()) $rows[]=$row; }
 ?>
 
-<?php require_once __DIR__ . '/../includes/head.php'; ?>
-<?php require_once __DIR__ . '/../includes/admin_navbar.php'; ?>
-<?php require_once __DIR__ . '/../includes/admin_sidebar.php'; ?>
+<?php require_once __DIR__ . '/../../includes/head.php'; ?>
+<?php require_once __DIR__ . '/../../includes/admin_navbar.php'; ?>
+<?php require_once __DIR__ . '/../../includes/admin_sidebar.php'; ?>
 
 <div class="container-fluid my-4 px-3 px-md-4">
   <div class="d-flex justify-content-between align-items-end flex-wrap gap-2">
@@ -42,8 +42,6 @@ if($r){ while($row=$r->fetch_assoc()) $rows[]=$row; }
               <th>Customer</th>
               <th>Car</th>
               <th>Year</th>
-              <th>Fuel</th>
-              <th>Trans.</th>
               <th>Expected</th>
               <th>Location</th>
               <th>Status</th>
@@ -55,71 +53,33 @@ if($r){ while($row=$r->fetch_assoc()) $rows[]=$row; }
             <?php foreach($rows as $x): ?>
               <tr>
                 <td><?php echo (int)$x['id']; ?></td>
-
                 <td><?php echo esc($x['full_name'] ?: '—'); ?></td>
-
                 <td>
                   <div class="fw-bold"><?php echo esc($x['car_title']); ?></div>
-                  <div class="text-muted small">
-                    <?php echo esc($x['fuel']); ?> • <?php echo esc($x['transmission']); ?>
-                    <?php if((int)$x['mileage_km']>0): ?> • <?php echo (int)$x['mileage_km']; ?> km<?php endif; ?>
-                  </div>
-
+                  <div class="text-muted small"><?php echo esc($x['fuel']); ?> • <?php echo esc($x['transmission']); ?><?php if((int)$x['mileage_km']>0): ?> • <?php echo (int)$x['mileage_km']; ?> km<?php endif; ?></div>
                   <?php if($x['status']==='Rejected' && $x['reject_reason']): ?>
-                    <div class="small text-danger mt-1">
-                      <span class="fw-semibold">Reject reason:</span> <?php echo esc($x['reject_reason']); ?>
-                    </div>
+                    <div class="small text-danger mt-1"><span class="fw-semibold">Reject reason:</span> <?php echo esc($x['reject_reason']); ?></div>
                   <?php endif; ?>
                 </td>
-
                 <td><?php echo (int)$x['car_year']; ?></td>
-                <td><?php echo esc($x['fuel']); ?></td>
-                <td><?php echo esc($x['transmission']); ?></td>
                 <td>₹<?php echo number_format((float)$x['expected_price']); ?></td>
                 <td><?php echo esc($x['location']); ?></td>
-
-                <td>
-                  <span class="badge text-bg-<?php echo badgeSell($x['status']); ?>">
-                    <?php echo esc($x['status']); ?>
-                  </span>
-                </td>
-
+                <td><span class="badge text-bg-<?php echo badgeSell($x['status']); ?>"><?php echo esc($x['status']); ?></span></td>
                 <td class="text-muted small"><?php echo esc($x['created_at']); ?></td>
-
                 <td class="text-end">
                   <?php if($x['status']==='Pending'): ?>
-                    <a class="btn btn-sm btn-success"
-                       href="<?php echo BASE_URL; ?>admin/sell_requests_approve.php?id=<?php echo (int)$x['id']; ?>"
-                       onclick="return confirm('Approve and add this car into inventory as Draft?');">
-                      Approve
-                    </a>
-
-                    <a class="btn btn-sm btn-danger"
-                       href="<?php echo BASE_URL; ?>admin/sell_requests_reject.php?id=<?php echo (int)$x['id']; ?>">
-                      Reject
-                    </a>
-
+                    <a class="btn btn-sm btn-success" href="<?php echo BASE_URL; ?>admin/sell_requests/approve.php?id=<?php echo (int)$x['id']; ?>" onclick="return confirm('Approve and add this car into inventory as Draft?');">Approve</a>
+                    <a class="btn btn-sm btn-danger" href="<?php echo BASE_URL; ?>admin/sell_requests/reject.php?id=<?php echo (int)$x['id']; ?>">Reject</a>
                   <?php elseif($x['status']==='Approved' && (int)$x['approved_car_id']>0): ?>
-                    <a class="btn btn-sm btn-outline-dark"
-                       href="<?php echo BASE_URL; ?>admin/cars/edit.php?id=<?php echo (int)$x['approved_car_id']; ?>">
-                      Open Car
-                    </a>
-
-                    <a class="btn btn-sm btn-outline-success"
-                       href="<?php echo BASE_URL; ?>admin/cars/status.php?id=<?php echo (int)$x['approved_car_id']; ?>&status=Published">
-                      Publish
-                    </a>
-
+                    <a class="btn btn-sm btn-outline-dark" href="<?php echo BASE_URL; ?>admin/cars/edit.php?id=<?php echo (int)$x['approved_car_id']; ?>">Open Car</a>
+                    <a class="btn btn-sm btn-outline-success" href="<?php echo BASE_URL; ?>admin/cars/status.php?id=<?php echo (int)$x['approved_car_id']; ?>&status=Published">Publish</a>
                   <?php else: ?>
                     <span class="text-muted small">—</span>
                   <?php endif; ?>
                 </td>
               </tr>
             <?php endforeach; ?>
-
-            <?php if(count($rows)===0): ?>
-              <tr><td colspan="11" class="text-muted">No data found.</td></tr>
-            <?php endif; ?>
+            <?php if(count($rows)===0): ?><tr><td colspan="9" class="text-muted">No data found.</td></tr><?php endif; ?>
           </tbody>
         </table>
       </div>
@@ -127,4 +87,4 @@ if($r){ while($row=$r->fetch_assoc()) $rows[]=$row; }
   </div>
 </div>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
