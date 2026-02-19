@@ -1,0 +1,21 @@
+.hero{
+  background: radial-gradient(1200px 500px at 10% 10%, rgba(13,110,253,.35), transparent 60%),
+              radial-gradient(900px 400px at 90% 20%, rgba(25,135,84,.30), transparent 60%),
+              linear-gradient(135deg, #0b1220, #111827);
+  color:#fff; border-radius:18px;
+}
+.card-soft{ border:0; border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,.08); }
+.badge-soft{ background:rgba(13,110,253,.12); color:#0d6efd; }
+.table thead th{ background:#f8fafc; }
+
+/* Admin tables responsive */
+.table-responsive { overflow-x: auto; }
+
+/* Images responsive fix */
+img { max-width: 100%; height: auto; }
+
+/* Better card spacing on small screens */
+@media (max-width: 576px){
+  .card-body { padding: 1rem !important; }
+  .btn { border-radius: 12px; }
+}
